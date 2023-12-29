@@ -1,8 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <string.h>
-#include <envloader.h>
+#include "envloader.h"
 
 short SearchFileCharSize(char* path_p)
 {
@@ -18,7 +14,7 @@ short SearchFileCharSize(char* path_p)
 
 // It will return -1 if file is not found
 // It will return  0 if file is found
-bool LoadDotenv(Dotenv* dotenv, char* path_p)
+int LoadDotenv(Dotenv* dotenv, char* path_p)
 {
   FILE* file_p;
   file_p = fopen(path_p, "r");
@@ -44,19 +40,19 @@ bool LoadDotenv(Dotenv* dotenv, char* path_p)
     }
 
     char dataVarName[128] = "";
-    char dataVarValue[128] = "";
+    char dataVarValue[128] = "\0";
 
-    bool isDataVarValue = false;
-    short dataVarValueStartsAt;
+    short isDataVarValue = 0;
+    short dataVarValueStartsAt = 1;
 
     for(int i = 0; i <= dataLength ; i++)
     { 
       if(fileData_s[i] == '='){
-        isDataVarValue = true;
+        isDataVarValue = 1;
         dataVarValueStartsAt = i + 1;
         continue;
       }
-      if(isDataVarValue){
+      if(isDataVarValue == 1){
         dataVarValue[i - dataVarValueStartsAt] = fileData_s[i];
       }else{
         dataVarName[i] = fileData_s[i];

@@ -1,5 +1,5 @@
 # Project info
-cmake_minimum_required(VERSION 3.25.3)
+cmake_minimum_required(VERSION 3.22.1)
 project(ENVLoader)
 
 # Options
